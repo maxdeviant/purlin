@@ -1,0 +1,8 @@
+{
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "nixEnvSelector.nixShellConfig": "${workspaceRoot}/shell.nix",
+  "purescript.addSpagoSources": true,
+  "purescript.addNpmPath": true,
+  "purescript.buildCommand": "spago build --purs-args --json-errors"
+}
