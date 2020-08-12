@@ -1,4 +1,4 @@
-{ name = "my-project"
+{ name = "purlin"
 , dependencies =
   [ "argonaut"
   , "console"
