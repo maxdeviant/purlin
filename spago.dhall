@@ -1,5 +1,14 @@
 { name = "my-project"
-, dependencies = [ "console", "effect", "psci-support" ]
+, dependencies =
+  [ "argonaut"
+  , "console"
+  , "effect"
+  , "node-fs"
+  , "node-path"
+  , "node-process"
+  , "npm-package-json"
+  , "psci-support"
+  ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
 }

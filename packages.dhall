@@ -3,6 +3,14 @@ let upstream =
 
 let overrides = {=}
 
-let additions = {=}
+let additions =
+  { npm-package-json =
+    { dependencies =
+        [ "argonaut"
+        ]
+    , repo = "https://github.com/maxdeviant/purescript-npm-package-json.git"
+    , version = "52f51084f08527e69232b8c9ece8dfd1a172c049"
+    }
+  }
 
 in  upstream // overrides // additions
