@@ -7,8 +7,8 @@ import Effect (Effect)
 import Node.Process as Process
 import Purlin (ModuleName(..), resolveBin)
 
-format :: Effect Unit
-format = do
+format :: Array String -> Effect Unit
+format args = do
   purty <- resolveBin { cwd: Nothing } (ModuleName "purty")
   (SpawnSyncResult result) <-
     spawnSync (Command purty)
