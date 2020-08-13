@@ -8,3 +8,6 @@
 /.purs*
 /.psa*
 /.spago
+
+# Bundled output.
+lib/
