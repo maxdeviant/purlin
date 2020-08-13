@@ -15,7 +15,8 @@
     "build": "spago run -a build"
   },
   "files": [
-    "lib/"
+    "lib/",
+    "config/"
   ],
   "dependencies": {
     "cross-spawn": "^7.0.3",
