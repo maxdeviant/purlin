@@ -4,7 +4,7 @@ Purlin provides a common foundation for your [PureScript](https://www.purescript
 
 ## Usage
 
-To get started with Purlin you'll want to install it as a `devDependency`:
+To get started with Purlin you'll want to install it as a dev dependency:
 
 #### Yarn
 
