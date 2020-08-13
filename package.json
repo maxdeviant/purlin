@@ -6,7 +6,7 @@
   "author": "Marshall Bowers <elliott.codes@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "format": "purty --write src/"
+    "format": "spago run -a format"
   },
   "dependencies": {
     "cross-spawn": "^7.0.3",
