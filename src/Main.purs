@@ -17,9 +17,7 @@ main = do
     commandArgs = maybe [] identity $ tail args
   case command of
     Just "format" -> do
-      log "Running format"
       format commandArgs
     Just "build" -> do
-      log "Running build"
       build commandArgs
     _ -> log "Command not found"
