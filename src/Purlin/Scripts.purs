@@ -15,3 +15,12 @@ format args = do
       (Just [ "--write", "src/" ])
       (Just $ SpawnSyncOptions { stdio: "inherit" })
   Process.exit result.status
+
+build :: Array String -> Effect Unit
+build args = do
+  spago <- resolveBin { cwd: Nothing } (ModuleName "spago")
+  (SpawnSyncResult result) <-
+    spawnSync (Command spago)
+      (Just [ "build" ])
+      (Just $ SpawnSyncOptions { stdio: "inherit" })
+  Process.exit result.status

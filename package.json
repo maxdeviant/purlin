@@ -6,12 +6,14 @@
   "author": "Marshall Bowers <elliott.codes@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "format": "spago run -a format"
+    "format": "spago run -a format",
+    "build": "spago run -a build"
   },
   "dependencies": {
     "cross-spawn": "^7.0.3",
     "prettier": "^2.0.5",
     "purty": "^6.2.0",
+    "spago": "^0.15.3",
     "which": "^2.0.2"
   }
 }

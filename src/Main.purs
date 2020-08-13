@@ -6,7 +6,7 @@ import Data.Maybe (Maybe(..), maybe)
 import Effect (Effect)
 import Effect.Console (log)
 import Node.Process as Process
-import Purlin.Scripts (format)
+import Purlin.Scripts (build, format)
 
 main :: Effect Unit
 main = do
@@ -19,4 +19,7 @@ main = do
     Just "format" -> do
       log "Running format"
       format commandArgs
+    Just "build" -> do
+      log "Running build"
+      build commandArgs
     _ -> log "Command not found"
