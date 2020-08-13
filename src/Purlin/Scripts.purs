@@ -2,6 +2,7 @@ module Purlin.Scripts where
 
 import Prelude
 import CrossSpawn (Command(..), SpawnSyncOptions(..), SpawnSyncResult(..), spawnSync)
+import Data.Array (concat)
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Node.Process as Process
@@ -19,8 +20,10 @@ format args = do
 build :: Array String -> Effect Unit
 build args = do
   spago <- resolveBin { cwd: Nothing } (ModuleName "spago")
+  let
+    args' = concat [ [ "build" ], args ]
   (SpawnSyncResult result) <-
     spawnSync (Command spago)
-      (Just [ "build" ])
+      (Just args')
       (Just $ SpawnSyncOptions { stdio: "inherit" })
   Process.exit result.status
