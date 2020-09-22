@@ -20,4 +20,5 @@ main = do
       format commandArgs
     Just "build" -> do
       build commandArgs
-    _ -> log "Command not found"
+    Just unknownCommand -> log $ "Command \"" <> unknownCommand <> "\" not found"
+    Nothing -> log "No command provided"
