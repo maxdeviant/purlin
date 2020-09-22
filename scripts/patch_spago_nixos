@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# When running yarn scripts (`yarn build`, `yarn format`, `yarn test`, etc.),
+# spago gets resolved to the copy in `node_modules`. Since this is an unpatched
+# binary, these commands will fail when run on NixOS.
+#
+# This script can be used to overwrite the copy of spago in `node_modules` with
+# one sourced from elsewhere (typically from `shell.nix`).
+
+if [ -z "$IN_NIX_SHELL" ]; then
+  echo "Looks like you're not in a nix-shell. You probably don't want to run this."
+  echo "Exiting..."
+  exit 1
+fi
+
+SPAGO=$(which spago)
+
+echo "Patching spago in node_modules with $SPAGO"
+
+cp "$SPAGO" node_modules/spago/
+
+echo "Spago patched!"
