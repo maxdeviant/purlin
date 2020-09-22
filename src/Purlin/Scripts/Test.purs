@@ -5,16 +5,36 @@ module Purlin.Scripts.Test
 import Prelude
 import CrossSpawn (Command(..), SpawnSyncOptions(..), SpawnSyncResult(..), spawnSync)
 import Data.Array (concat)
-import Data.Maybe (Maybe(..))
+import Data.Maybe (Maybe(..), maybe)
 import Effect (Effect)
+import Node.FS.Sync as Fs
 import Node.Process as Process
 import Purlin (ModuleName(..), resolveBin)
+
+newtype TestConfig
+  = TestConfig String
+
+findTestConfig :: Effect (Maybe TestConfig)
+findTestConfig = do
+  let
+    testConfigPath = "test/test.dhall"
+  testConfigExists <- Fs.exists testConfigPath
+  pure
+    $ if testConfigExists then
+        Just $ TestConfig testConfigPath
+      else
+        Nothing
 
 test :: Array String -> Effect Unit
 test args = do
   spago <- resolveBin { cwd: Nothing } (ModuleName "spago")
+  testConfig <- findTestConfig
   let
-    args' = concat [ [ "test" ], args ]
+    testConfigArgs =
+      testConfig
+        # maybe [] \(TestConfig config) -> [ "-x", config ]
+
+    args' = concat [ testConfigArgs, [ "test" ], args ]
   (SpawnSyncResult result) <-
     spawnSync (Command spago)
       (Just args')
