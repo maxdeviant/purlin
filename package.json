@@ -12,7 +12,8 @@
   "scripts": {
     "prepublishOnly": "spago bundle-app -t lib/index.js",
     "format": "spago run -a format",
-    "build": "spago run -a build"
+    "build": "spago run -a build",
+    "test": "spago run -a test"
   },
   "files": [
     "lib/",
