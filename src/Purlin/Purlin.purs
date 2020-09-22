@@ -34,7 +34,7 @@ resolveBin { cwd: customCwd } (ModuleName moduleName) = do
         fullPathToBin =
           packageJson'.bin
             >>= case _ of
-                BinPath bin -> Just $ bin
+                BinPath bin -> Just bin
                 BinPaths paths -> Map.lookup moduleName paths
             # map (\binPath -> Path.concat [ moduleDirectory, binPath ])
             # maybe "" identity
