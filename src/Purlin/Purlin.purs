@@ -8,6 +8,7 @@ import Prelude
 import Data.Argonaut (decodeJson, parseJson, printJsonDecodeError)
 import Data.Bifunctor (bimap)
 import Data.Either (Either, note)
+import Data.Foldable (find)
 import Data.Map as Map
 import Data.Maybe (Maybe(..), maybe, maybe')
 import Data.Newtype (class Newtype, unwrap)
@@ -20,7 +21,7 @@ import Node.Globals (requireResolve)
 import Node.Path as Path
 import Node.Process as Process
 import Npm.PackageJson (PackageJson(..), Bin(..))
-import Which (whichSync)
+import Which (whichAllSync)
 
 newtype ModuleName
   = ModuleName String
@@ -64,13 +65,10 @@ type ResolveBinOptions
 
 resolveBin :: ResolveBinOptions -> ModuleName -> Effect (Either String String)
 resolveBin { cwd: customCwd } moduleName = do
-  pathFromWhich <- whichSync $ unwrap moduleName
+  pathsFromWhich <- whichAllSync $ unwrap moduleName
   let
-    looksLikeNix = maybe false (startsWith "/nix/store/") pathFromWhich
-  if looksLikeNix then
-    maybe' (\unit -> resolveFromPackageJson) (pure >>> pure) $ pathFromWhich
-  else
-    resolveFromPackageJson
+    nixPath = pathsFromWhich >>= (find $ startsWith "/nix/store/")
+  maybe' (\unit -> resolveFromPackageJson) (pure >>> pure) nixPath
   where
   resolveFromPackageJson = do
     cwd <- maybe Process.cwd pure customCwd
