@@ -1,8 +1,13 @@
-module Purlin where
+module Purlin
+  ( ModuleName(..)
+  , ResolveBinOptions(..)
+  , resolveBin
+  ) where
 
 import Prelude
 import Data.Argonaut (decodeJson, parseJson, printJsonDecodeError)
-import Data.Either (Either(..))
+import Data.Bifunctor (bimap)
+import Data.Either (Either, note)
 import Data.Map as Map
 import Data.Maybe (Maybe(..), maybe)
 import Data.String (Pattern(..), Replacement(..), replace)
@@ -17,27 +22,50 @@ import Npm.PackageJson (PackageJson(..), Bin(..))
 newtype ModuleName
   = ModuleName String
 
+newtype ResolvedPackageJson
+  = ResolvedPackageJson
+  { packageJson :: PackageJson
+  , directory :: String
+  }
+
+resolvePackageJson :: ModuleName -> Effect (Either String ResolvedPackageJson)
+resolvePackageJson (ModuleName moduleName) = do
+  modulePackageJsonPath <- requireResolve $ moduleName <> "/package.json"
+  let
+    moduleDirectory = Path.dirname modulePackageJsonPath
+  packageJsonContents <- Fs.readTextFile UTF8 modulePackageJsonPath
+  pure
+    $ bimap printJsonDecodeError
+        ( \packageJson ->
+            ResolvedPackageJson
+              { packageJson
+              , directory: moduleDirectory
+              }
+        )
+    $ parseJson packageJsonContents
+    >>= decodeJson
+
+resolveBinFromPackageJson :: ResolvedPackageJson -> ModuleName -> Maybe String
+resolveBinFromPackageJson (ResolvedPackageJson { directory: moduleDirectory, packageJson: (PackageJson packageJson) }) (ModuleName moduleName) =
+  packageJson.bin
+    >>= case _ of
+        BinPath bin -> Just bin
+        BinPaths paths -> Map.lookup moduleName paths
+    # map (\binPath -> Path.concat [ moduleDirectory, binPath ])
+
 type ResolveBinOptions
   = { cwd :: Maybe String
     }
 
-resolveBin :: ResolveBinOptions -> ModuleName -> Effect String
-resolveBin { cwd: customCwd } (ModuleName moduleName) = do
+resolveBin :: ResolveBinOptions -> ModuleName -> Effect (Either String String)
+resolveBin { cwd: customCwd } moduleName = do
   cwd <- maybe Process.cwd pure customCwd
-  modulePackageJsonPath <- requireResolve $ moduleName <> "/package.json"
-  let
-    moduleDirectory = Path.dirname modulePackageJsonPath
-  packageJson <- Fs.readTextFile UTF8 modulePackageJsonPath
-  case parseJson packageJson >>= decodeJson of
-    Right (PackageJson packageJson') ->
-      let
-        fullPathToBin =
-          packageJson'.bin
-            >>= case _ of
-                BinPath bin -> Just bin
-                BinPaths paths -> Map.lookup moduleName paths
-            # map (\binPath -> Path.concat [ moduleDirectory, binPath ])
-            # maybe "" identity
-      in
-        pure $ fullPathToBin # replace (Pattern cwd) (Replacement ".")
-    Left err -> pure $ printJsonDecodeError err
+  packageJson <- resolvePackageJson moduleName
+  pure
+    $ packageJson
+    # map
+        ( \resolvedPackageJson ->
+            resolveBinFromPackageJson resolvedPackageJson moduleName
+        )
+    >>= note "Failed to resolve bin"
+    # map (replace (Pattern cwd) (Replacement "."))

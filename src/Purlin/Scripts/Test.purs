@@ -5,8 +5,10 @@ module Purlin.Scripts.Test
 import Prelude
 import CrossSpawn (Command(..), SpawnSyncOptions(..), SpawnSyncResult(..), spawnSync)
 import Data.Array (concat)
+import Data.Either (Either(..))
 import Data.Maybe (Maybe(..), maybe)
 import Effect (Effect)
+import Effect.Console (log)
 import Node.FS.Sync as Fs
 import Node.Process as Process
 import Purlin (ModuleName(..), resolveBin)
@@ -28,15 +30,18 @@ findTestConfig = do
 test :: Array String -> Effect Unit
 test args = do
   spago <- resolveBin { cwd: Nothing } (ModuleName "spago")
-  testConfig <- findTestConfig
-  let
-    testConfigArgs =
-      testConfig
-        # maybe [] \(TestConfig config) -> [ "-x", config ]
+  case spago of
+    Right spago' -> do
+      testConfig <- findTestConfig
+      let
+        testConfigArgs =
+          testConfig
+            # maybe [] \(TestConfig config) -> [ "-x", config ]
 
-    args' = concat [ testConfigArgs, [ "test" ], args ]
-  (SpawnSyncResult result) <-
-    spawnSync (Command spago)
-      (Just args')
-      (Just $ SpawnSyncOptions { stdio: "inherit" })
-  Process.exit result.status
+        args' = concat [ testConfigArgs, [ "test" ], args ]
+      (SpawnSyncResult result) <-
+        spawnSync (Command spago')
+          (Just args')
+          (Just $ SpawnSyncOptions { stdio: "inherit" })
+      Process.exit result.status
+    Left err -> log err
