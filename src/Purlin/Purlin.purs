@@ -1,8 +1,4 @@
-module Purlin
-  ( ModuleName(..)
-  , ResolveBinOptions(..)
-  , resolveBin
-  ) where
+module Purlin where
 
 import Prelude
 import Data.Argonaut (decodeJson, parseJson, printJsonDecodeError)

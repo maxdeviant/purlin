@@ -9,7 +9,7 @@ let additions =
         [ "argonaut"
         ]
     , repo = "https://github.com/maxdeviant/purescript-npm-package-json.git"
-    , version = "52f51084f08527e69232b8c9ece8dfd1a172c049"
+    , version = "94443a53c14f001425245d1bf6e060a70fc9f905"
     }
   }
 

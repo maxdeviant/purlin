@@ -11,7 +11,7 @@
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "spago bundle-app -t lib/index.js",
-    "format": "spago run -a format",
+    "format": "spago run -a format && purty --write test/",
     "build": "spago run -a build",
     "test": "spago run -a test"
   },
