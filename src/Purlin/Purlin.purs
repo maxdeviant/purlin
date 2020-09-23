@@ -9,8 +9,10 @@ import Data.Argonaut (decodeJson, parseJson, printJsonDecodeError)
 import Data.Bifunctor (bimap)
 import Data.Either (Either, note)
 import Data.Map as Map
-import Data.Maybe (Maybe(..), maybe)
+import Data.Maybe (Maybe(..), maybe, maybe')
+import Data.Newtype (class Newtype, unwrap)
 import Data.String (Pattern(..), Replacement(..), replace)
+import Data.String.Utils (startsWith)
 import Effect (Effect)
 import Node.Encoding (Encoding(..))
 import Node.FS.Sync as Fs
@@ -18,9 +20,12 @@ import Node.Globals (requireResolve)
 import Node.Path as Path
 import Node.Process as Process
 import Npm.PackageJson (PackageJson(..), Bin(..))
+import Which (whichSync)
 
 newtype ModuleName
   = ModuleName String
+
+derive instance newtypeModuleName :: Newtype ModuleName _
 
 newtype ResolvedPackageJson
   = ResolvedPackageJson
@@ -59,13 +64,22 @@ type ResolveBinOptions
 
 resolveBin :: ResolveBinOptions -> ModuleName -> Effect (Either String String)
 resolveBin { cwd: customCwd } moduleName = do
-  cwd <- maybe Process.cwd pure customCwd
-  packageJson <- resolvePackageJson moduleName
-  pure
-    $ packageJson
-    # map
-        ( \resolvedPackageJson ->
-            resolveBinFromPackageJson resolvedPackageJson moduleName
-        )
-    >>= note "Failed to resolve bin"
-    # map (replace (Pattern cwd) (Replacement "."))
+  pathFromWhich <- whichSync $ unwrap moduleName
+  let
+    looksLikeNix = maybe false (startsWith "/nix/store/") pathFromWhich
+  if looksLikeNix then
+    maybe' (\unit -> resolveFromPackageJson) (pure >>> pure) $ pathFromWhich
+  else
+    resolveFromPackageJson
+  where
+  resolveFromPackageJson = do
+    cwd <- maybe Process.cwd pure customCwd
+    packageJson <- resolvePackageJson moduleName
+    pure
+      $ packageJson
+      # map
+          ( \resolvedPackageJson ->
+              resolveBinFromPackageJson resolvedPackageJson moduleName
+          )
+      >>= note "Failed to resolve bin"
+      # map (replace (Pattern cwd) (Replacement "."))

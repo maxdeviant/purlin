@@ -8,6 +8,7 @@
   , "node-process"
   , "npm-package-json"
   , "psci-support"
+  , "stringutils"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
