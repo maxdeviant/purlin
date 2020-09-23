@@ -11,7 +11,7 @@ import Data.Newtype (class Newtype, unwrap)
 import Data.String (Pattern(..), Replacement(..), replace)
 import Data.String.Utils (startsWith)
 import Effect (Effect)
-import Node.Encoding (Encoding(..))
+import Effect.Class.Console (logShow)
 import Node.FS.Sync as Fs
 import Node.Globals (requireResolve)
 import Node.Path as Path
@@ -61,7 +61,7 @@ type ResolveBinOptions
 
 resolveBin :: ResolveBinOptions -> ModuleName -> Effect (Either String String)
 resolveBin { cwd: customCwd } moduleName = do
-  pathsFromWhich <- whichAllSync $ unwrap moduleName
+  pathsFromWhich <- whichAllSync Nothing $ unwrap moduleName
   let
     nixPath = pathsFromWhich >>= (find $ startsWith "/nix/store/")
   maybe' (\unit -> resolveFromPackageJson) (pure >>> pure) nixPath

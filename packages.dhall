@@ -11,6 +11,14 @@ let additions =
     , repo = "https://github.com/maxdeviant/purescript-npm-package-json.git"
     , version = "94443a53c14f001425245d1bf6e060a70fc9f905"
     }
+  , which =
+    { dependencies =
+      [ "arrays"
+      , "nullable"
+      ]
+    , repo = "https://github.com/maxdeviant/purescript-which.git"
+    , version = "1ae31e6f80a0d91171206a56ee0d9b68ec50d671"
+    }
   }
 
 in  upstream // overrides // additions

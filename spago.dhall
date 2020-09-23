@@ -9,6 +9,7 @@
   , "npm-package-json"
   , "psci-support"
   , "stringutils"
+  , "which"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs" ]
