@@ -20,6 +20,7 @@
     "config/"
   ],
   "dependencies": {
+    "bower": "^1.8.8",
     "cross-spawn": "^7.0.3",
     "prettier": "^2.0.5",
     "purty": "^6.2.0",

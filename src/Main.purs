@@ -6,7 +6,7 @@ import Data.Maybe (Maybe(..), maybe)
 import Effect (Effect)
 import Effect.Console (log)
 import Node.Process as Process
-import Purlin.Scripts (build, format, test)
+import Purlin.Scripts (build, bumpVersion, format, test)
 
 main :: Effect Unit
 main = do
@@ -22,5 +22,7 @@ main = do
       build commandArgs
     Just "test" -> do
       test commandArgs
+    Just "bump-version" -> do
+      bumpVersion commandArgs
     Just unknownCommand -> log $ "Command \"" <> unknownCommand <> "\" not found"
     Nothing -> log "No command provided"

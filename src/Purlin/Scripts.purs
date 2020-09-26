@@ -1,5 +1,6 @@
 module Purlin.Scripts
   ( build
+  , bumpVersion
   , format
   , module Purlin.Scripts.Test
   ) where
@@ -34,6 +35,20 @@ build args = do
     Right spago' -> do
       let
         args' = concat [ [ "build" ], args ]
+      (SpawnSyncResult result) <-
+        spawnSync (Command spago')
+          (Just args')
+          (Just $ SpawnSyncOptions { stdio: "inherit" })
+      Process.exit result.status
+    Left err -> log err
+
+bumpVersion :: Array String -> Effect Unit
+bumpVersion args = do
+  spago <- resolveBin { cwd: Nothing } (ModuleName "spago")
+  case spago of
+    Right spago' -> do
+      let
+        args' = concat [ [ "bump-version" ], args ]
       (SpawnSyncResult result) <-
         spawnSync (Command spago')
           (Just args')
