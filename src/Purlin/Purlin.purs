@@ -11,7 +11,7 @@ import Data.Newtype (class Newtype, unwrap)
 import Data.String (Pattern(..), Replacement(..), replace)
 import Data.String.Utils (startsWith)
 import Effect (Effect)
-import Effect.Class.Console (logShow)
+import Node.Encoding (Encoding(..))
 import Node.FS.Sync as Fs
 import Node.Globals (requireResolve)
 import Node.Path as Path
