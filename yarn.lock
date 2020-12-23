@@ -276,10 +276,10 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-prettier@^2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.5.tgz#d6d56282455243f2f92cc1716692c08aa31522d4"
-  integrity sha512-7PtVymN48hGcO4fGjybyBSIWDsLU4H4XlvOHfq91pz9kkGlonzwTfYkaIEwiRg/dAJF9YlbsduBAgtYLi+8cFg==
+prettier@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.2.1.tgz#795a1a78dd52f073da0cd42b21f9c91381923ff5"
+  integrity sha512-PqyhM2yCjg/oKkFPtTGUojv7gnZAoG80ttl45O6x2Ug/rMJw4wcc9k6aaf2hibP7BGVCCM33gZoGjyvt9mm16Q==
 
 psl@^1.1.28:
   version "1.8.0"
@@ -291,10 +291,10 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-purty@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/purty/-/purty-6.2.0.tgz#e3556b9bff8482f05a374e2f8d91328e3b68baac"
-  integrity sha512-JfT8kJHSyxuOFQtRiH2x55SiPxXZsSdedQlZap8JehQ7KzB49B5C9cWwVybtSB36BdADQcxPvtw8D52z4EPnBw==
+purty@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/purty/-/purty-6.3.0.tgz#2d4d949b5d23fe3fd761411cabd23537b65d098d"
+  integrity sha512-l70uQyz+t5GvCPzOorUbIhRX3oQW9i8Kgwr0LvS6nUq+UM4rMJdYcHazuupcLVInvNsbd290EnpjaRgAITt0dw==
 
 qs@~6.5.2:
   version "6.5.2"
@@ -349,10 +349,10 @@ shebang-regex@^3.0.0:
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
 
-spago@^0.15.3:
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/spago/-/spago-0.15.3.tgz#348de88f2aa499abaee9289b7d66e1e049807f0c"
-  integrity sha512-CNpbJiI+6MPpttbCtGIGFUroegXze4I7joXCTfiiTRzOUKcMV925fm7dxyAa3AVUUUvGi3D55k65aniGR1cVMA==
+spago@^0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/spago/-/spago-0.18.1.tgz#28e1dac141431d3370de55517803a1ab6651223c"
+  integrity sha512-pyxYQbtOxKZdUC9iQ0hcbtP/rJz09OwVcE22RI46+YVbLxK/80tVUrCTSQXGeG87YzQopc7bfqkY+lEXdfje1w==
   dependencies:
     request "^2.88.0"
     tar "^4.4.8"
