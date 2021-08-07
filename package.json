@@ -20,11 +20,11 @@
     "config/"
   ],
   "dependencies": {
-    "bower": "^1.8.8",
+    "bower": "^1.8.12",
     "cross-spawn": "^7.0.3",
-    "prettier": "^2.2.1",
-    "purty": "^6.3.0",
-    "spago": "^0.18.1",
+    "prettier": "^2.3.2",
+    "purty": "^7.0.0",
+    "spago": "^0.20.3",
     "which": "^2.0.2"
   }
 }
